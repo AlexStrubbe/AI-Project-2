@@ -1,16 +1,53 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 import math
+from collections import deque
 
 #Using the networkx library to facilitate the weighted graph creation for our implementation
 dis = 0
 space = nx.Graph()
+space.add_node('Start')
+space.add_node('1')
+space.add_node('2')
+space.add_node('3')
+space.add_node('4')
+space.add_node('5')
+space.add_node('6')
+space.add_node('7')
+space.add_node('8')
+space.add_node('9')
+space.add_node('10')
+space.add_node('11')
+space.add_node('12')
+space.add_node('13')
+space.add_node('14')
+space.add_node('15')
+space.add_node('16')
+space.add_node('17')
+space.add_node('18')
+space.add_node('19')
+space.add_node('20')
+space.add_node('21')
+space.add_node('22')
+space.add_node('23')
+space.add_node('24')
+space.add_node('25')
+space.add_node('26')
+space.add_node('27')
+space.add_node('28')
+space.add_node('29')
+space.add_node('30')
+space.add_node('31')
+space.add_node('32')
+space.add_node('33')
+space.add_node('Goal')
+
 
 #Start node verteces
-space.add_edge("start" , "1", dis = math.sqrt((394 - 331)**2 + (809 - 719)**2))
-space.add_edge("start" , "2", dis = math.sqrt((393 - 331)**2 + (606 - 719)**2))
-space.add_edge("start" , "3", dis = math.sqrt((360 - 331)**2 + (452 - 719)**2))
-space.add_edge("start" , "4", dis = math.sqrt((323 - 331)**2 + (245 - 719)**2))
+space.add_edge("Start" , "1", dis = math.sqrt((394 - 331)**2 + (809 - 719)**2))
+space.add_edge("Start" , "2", dis = math.sqrt((393 - 331)**2 + (606 - 719)**2))
+space.add_edge("Start" , "3", dis = math.sqrt((360 - 331)**2 + (452 - 719)**2))
+space.add_edge("Start" , "4", dis = math.sqrt((323 - 331)**2 + (245 - 719)**2))
 
 # Node 1 verteces
 space.add_edge("1" , "2", dis = math.sqrt((393 - 394)**2 + (606 - 809)**2))
@@ -222,23 +259,32 @@ space.add_edge("32" , "Goal", dis = math.sqrt((1725 - 1614)**2 + (65 - 51)**2))
 
 space.add_edge("33" , "Goal", dis = math.sqrt((1725 - 1689)**2 + (65 - 131)**2))
 
+# Function
 
-elarge = [(u, v) for (u, v, d) in space.edges(data=True) if d["dis"] > 500]
-esmall = [(u, v) for (u, v, d) in space.edges(data=True) if d["dis"] <= 500]
+def find_path(graph):
+    path = []
 
-pos = nx.spring_layout(space, seed=15)  # positions for all nodes - seed for reproducibility
+    visited = [False for i in range(len(list(graph.nodes)))]
 
-# nodes
-nx.draw_networkx_nodes(space, pos, node_size=700)
+    queue = deque()
 
-# node labels
-nx.draw_networkx_labels(space, pos, font_size=20, font_family="sans-serif")
-# edge weight labels
-edge_labels = nx.get_edge_attributes(space, "dis")
-nx.draw_networkx_edge_labels(space, pos, edge_labels)
+    visited[0] = True
+    queue.append(['Start'])
 
-ax = plt.gca()
-ax.margins(0.08)
-plt.axis("off")
-plt.tight_layout()
-plt.show()
+    while (len(queue) > 0):
+        path = queue.popleft()
+        s = path[-1]
+        if s == 'Goal':
+            path.append('Goal')
+            return path
+        for i in list(graph.neighbors(s)):
+            if i == 'Goal':
+                path.append('Goal')
+                return path
+            if i != 'Start' and (not visited[int(i)]):
+                visited[int(i)] = True
+                new_path = list(path)
+                new_path.append(i)
+                queue.append(new_path)
+    return path
+print(find_path(space))
