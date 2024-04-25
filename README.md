@@ -56,3 +56,7 @@ Handling obstacles and defining state transitions accurately to ensure optimal p
 ### Exercise 3.11:
 Balancing the exploration of the state space while ensuring an optimal solution.
 Dealing with potential complexities arising from the boat's capacity constraints and the numerical balance between missionaries and cannibals.
+
+Video Presentation:
+-----------------------------------
+https://www.youtube.com/watch?v=NWyIN0GGA58&ab_channel=wushi
